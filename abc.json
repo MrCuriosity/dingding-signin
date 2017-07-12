@@ -17,6 +17,13 @@
       "components":"components",
       "db":"app/db.js",
       "variables":"app/variables.js"
+    },
+    "mockapi": {
+      "/api/v1/dingding/config": "mock/dingdingConfig.js",
+      "/api/v1/logon/wifi/ssid_mac": "mock/checkWifi.js",
+      "/api/v1/logon/clock_in_record/today/:user_id": "mock/todayLog.js",
+      "/api/v1/logon/clock_in_window/near": "mock/nearLog.js",
+      "/api/v1/logon/clock_in_history": "mock/signin.js"
     }
   }
 }
