@@ -15,7 +15,7 @@ const context = nattyFetch.context({
     _tb_token_: '',
   },
   timeout: 5000,
-  didFetch: () => Toast.hide(),
+  didFetch: (variable, config) => Toast.hide(),
   // 请按照需要开启
   fit(response) {
     return {
