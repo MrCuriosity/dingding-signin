@@ -8,44 +8,28 @@ const context = nattyFetch.context({
   mockUrlPrefix: urlPrefix,
   urlPrefix,
   mock: isDev,
-  // jsonp: true,
-  withCredentials: false,
-  traditional: true,
-  data: {
-    _tb_token_: '',
-  },
   timeout: 5000,
   didFetch: (variable, config) => Toast.hide(),
+  withCredentials: false,
   // 请按照需要开启
   fit(response) {
     return {
-      success: response.success,
-      content: response.content,
-      error: {
-        errorMsg: response.errorMsg,
-        errorCode: response.errorCode,
-        errorLevel: response.errorLevel,
+      success: response.code && response.code === 200,
+      content: {
+        code: response.code,
+        data: response.data
       },
-    };
+      error: response.status && response.status !== 200 ? {
+        status: response.status,
+        message: response.message
+      } : null,
+    }
   },
   willFetch() {
     Toast.show({
       type: 'loading',
       content: 'Loading',
     });
-  },
-});
-
-context.create('SomeModuleAPI', {
-  getSomeInfo: {
-    mockUrl: 'query/getSomeInfo.json',
-    url: 'query/getSomeInfo.json',
-    willFetch() {
-      Toast.show({
-        type: 'loading',
-        content: 'Loading',
-      });
-    },
   },
 });
 
@@ -58,7 +42,7 @@ context.create('Signin', {
      */
     method: 'GET',
     mockUrl: '/api/v1/dingding/config',
-    url: '/api/v1/dingding/config'
+    url: `${urlPrefix}/api/v1/dingding/config`
   },
 
   // if wifi available
@@ -70,7 +54,7 @@ context.create('Signin', {
      */
     method: 'GET',
     mockUrl: '/api/v1/logon/wifi/ssid_mac',
-    url: '/api/v1/logon/wifi/ssid_mac',
+    url: `${urlPrefix}/api/v1/logon/wifi/ssid_mac`,
   },
 
   // signin log today
@@ -82,7 +66,7 @@ context.create('Signin', {
     method: 'GET',
     rest: true,
     mockUrl: '/api/v1/logon/clock_in_record/today/:user_id',
-    url: '/api/v1/logon/clock_in_record/today/:user_id'
+    url: `${urlPrefix}/api/v1/logon/clock_in_record/today/:user_id`
   },
 
   // signin log latest
@@ -94,7 +78,7 @@ context.create('Signin', {
      */
     method: 'GET',
     mockUrl: '/api/v1/logon/clock_in_window/near',
-    url: '/api/v1/logon/clock_in_window/near'
+    url: `${urlPrefix}/api/v1/logon/clock_in_window/near`
   },
 
   // signin
@@ -104,7 +88,7 @@ context.create('Signin', {
      * [param json]
      * {  
      *  "user_id":"userId",
-     *  "check_type":"2017-07-11 19:01:00",// 打卡时间,格式: yyyy-MM-dd HH:mm:ss
+     *  "check_datetime":"2017-07-11 19:01:00",// 打卡时间,格式: yyyy-MM-dd HH:mm:ss
      *  "location_method":1,// 定位方法: 0 WIFI, 1 GPS
      *  "device_id":"deviceId", // 设备编号
      *  "user_longitude":104.11, // 经度, GPS定位才必填
@@ -116,7 +100,7 @@ context.create('Signin', {
      */
     method: 'POST',
     mockUrl: '/api/v1/logon/clock_in_history',
-    url: '/api/v1/logon/clock_in_history',
+    url: `${urlPrefix}/api/v1/logon/clock_in_history`,
     header: {
       'Content-Type': 'application/json'
     }

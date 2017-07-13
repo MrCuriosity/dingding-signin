@@ -11,6 +11,7 @@ module.exports = function webpackConfig(config, webpack) {
     'react-router': 'window.ReactRouter',
     fastclick: 'window.FastClick',
     lodash: 'window._',
+    dd: 'window.dd'
   },
   ];
 };

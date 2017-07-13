@@ -5,7 +5,7 @@
     "template": "https://github.com/nowa-webpack/template-salt/archive/v2.zip",
     "npm": "https://registry.npm.taobao.org",
     "vars": {
-      "__LOCAL__": true
+      "__LOCAL__": false
     },
     "buildvars": {
       "__LOCAL__": [
