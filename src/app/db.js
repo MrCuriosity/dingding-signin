@@ -9,7 +9,7 @@ const context = nattyFetch.context({
   urlPrefix,
   mock: isDev,
   timeout: 5000,
-  didFetch: (variable, config) => Toast.hide(),
+  // didFetch: (variable, config) => Toast.hide(),
   withCredentials: false,
   // 请按照需要开启
   fit(response) {
@@ -24,12 +24,6 @@ const context = nattyFetch.context({
         message: response.message
       } : null,
     }
-  },
-  willFetch() {
-    Toast.show({
-      type: 'loading',
-      content: 'Loading',
-    });
   },
 });
 
@@ -76,6 +70,13 @@ context.create('Signin', {
      * time => HH:mm:ss
      * user_id => userId
      */
+    willFetch() {
+      Toast.show({
+        type: 'loading',
+        content: 'Loading',
+      })
+    },
+    didFetch: () => Toast.hide(),
     method: 'GET',
     mockUrl: '/api/v1/logon/clock_in_window/near',
     url: `${urlPrefix}/api/v1/logon/clock_in_window/near`
@@ -98,6 +99,13 @@ context.create('Signin', {
      *  "user_mac_addr":"mac"// wifi打卡出现
      * }
      */
+    willFetch() {
+      Toast.show({
+        type: 'loading',
+        content: 'Loading',
+      })
+    },
+    didFetch: () => Toast.hide(),
     method: 'POST',
     mockUrl: '/api/v1/logon/clock_in_history',
     url: `${urlPrefix}/api/v1/logon/clock_in_history`,

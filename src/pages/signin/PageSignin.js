@@ -4,7 +4,7 @@ import moment from 'moment'
 import './PageSignin.less'
 
 const { HBox, VBox, Box } = SaltUI.Boxs
-const { Avatar, Icon, Dialog } = SaltUI
+const { Toast, Avatar, Icon, Dialog } = SaltUI
 const jsApiList = [
   'biz.user.get',
   'device.base.getInterface',

@@ -1,5 +1,7 @@
 import dingdingConfig from './ddconfig.js'
 
+const { Toast } = SaltUI
+
 const jsApiList = [
   'biz.user.get',
   'device.base.getInterface',
@@ -10,6 +12,7 @@ const jsApiList = [
 export default {
   defaults(props) {
     return {
+    	initialized: false,
     	userid: '',
       avatar: '',
       username: '',
@@ -30,9 +33,15 @@ export default {
 	/** init */
 	async init({ fn, setState }, { url }) {
 		try {
+			Toast.show({
+				type: 'loading',
+				content: '初始化中...'
+			})
+
   		const result = await fn.DB.Signin.getConfig({ url })
   		const { data } = result
   		if (data) {
+
   			let ddconfig = Object.assign(data, {})
   			ddconfig.agentId = parseInt(ddconfig.agentid)
   			delete ddconfig.agentid
@@ -40,88 +49,107 @@ export default {
   			delete ddconfig.corpid
   			ddconfig.timeStamp = +new Date(parseInt(ddconfig.timeStamp, 10))
   			ddconfig.jsApiList = jsApiList
+
   			console.log('ddconfig', ddconfig)
   			const configResult = await dingdingConfig(ddconfig)
-  			alert('configResult => ' + configResult)
   			if (configResult === 1) {
-  				alert('okok')
 
   				dd.ready(() => {
-					  /** getUserInfo */
-			      dd.biz.user.get({
-			        onSuccess: async function (info) {
-			          info = JSON.parse(JSON.stringify(info))
-			          setState({
-			          	userid: info.id,
-			          	username: info.nickName,
-			          	avatar: info.avatar
-			          })
 
-			          alert('getUser success => ' + JSON.stringify(info))
-			          
-			          /** get todayLog */
-  							const result = await fn.DB.Signin.todayLog({ ':user_id': info.id })
-  							alert('init todayLog result => ' + JSON.stringify(result))
-  							setState({ todayLog: result.data })
-  							
+  					const p1 = new Promise((resolve, reject) => {
+  						/** getUserInfo */
+				      dd.biz.user.get({
+				        onSuccess: async function (info) {
+				          info = JSON.parse(JSON.stringify(info))
+				          setState({
+				          	userid: info.id,
+				          	username: info.nickName,
+				          	avatar: info.avatar
+				          })
+				          // alert('getUser success => ' + JSON.stringify(info))
+				          
+				          /** get todayLog */
+	  							const result = await fn.DB.Signin.todayLog({ ':user_id': info.id })
+	  							// alert(`init todayLog result => ${JSON.stringify(result)}`)
+	  							setState({ todayLog: result.data })
+	  							resolve(1)
+				        },
+				        onFail: function (err) {
+				          alert(`getUser error ${JSON.stringify(err)}`)
+				          console.error('getUser error -> ', err)
+				        	reject(1)
+				        }
+				      })
+  					}).catch(e => alert(`p1 error -> ${JSON.stringify(e)}`))
 
-			        },
-			        onFail: function (err) {
-			          alert('getUser fail: ' + JSON.stringify(err))
-			        }
-			      })
+  					const p2 = new Promise((resolve, reject) => {
+  						/** get device_id */
+				      dd.device.base.getUUID({
+						    onSuccess(data) {
+						    	// alert('getDeviceId success => ' + JSON.stringify(data))
+						    	setState({ device_id: data.uuid })
+						    	resolve(2)
+						    },
+						    onFail(err) {
+						    	alert(`get device_id error -> ${JSON.stringify(err)}`)
+						    	console.error('get device_id error -> ', err)
+						    	reject(2)
+						    }
+							})
+  					}).catch(e => alert(`p2 error -> ${JSON.stringify(e)}`))
 
-			      /** get device_id */
-			      dd.device.base.getUUID({
-					    onSuccess(data) {
-					    	// alert('getDeviceId success => ' + JSON.stringify(data))
-					    	setState({ device_id: data.uuid })
-					    },
-					    onFail(err) {
-					    	alert(JSON.stringify(err))
-					    	console.error('get device_id error -> ', err)
-					    }
-						})
+				    const p3 = new Promise((resolve, reject) => {
+				    	/** get location */
+				      dd.device.geolocation.get({
+				      	targetAccuracy : 200,
+						    coordinate : 1,// 1 => 高德 | 2 => 标准
+						    withReGeocode : true,
+						    onSuccess(result) {
+						    	// alert(`getLocation success => ${JSON.stringify(result)}`)
+						      result = JSON.parse(JSON.stringify(result))
+						    	const data = result.location ? result.location : result
+						    	const { longitude, latitude, address } = data
+						    	setState({ longitude, latitude, address })
+						    	resolve(3)
+						    },
+						    onFail(err) {
+						    	alert(`getLocation error -> ${JSON.stringify(err)}`)
+						    	console.error('getLocation error -> ', err)
+						    	reject(3)
+						    }
+				      })
+				    }).catch(e => alert(`getLocation error -> ${JSON.stringify(e)}`))
 
-			      /** get location */
-			      dd.device.geolocation.get({
-			      	targetAccuracy : 200,
-					    coordinate : 1,// 1 => 高德 | 2 => 标准
-					    withReGeocode : true,
-					    onSuccess(result) {
-					      // alert('getLocation success => ' + JSON.stringify(result))
-					      result = JSON.parse(JSON.stringify(result))
-					    	const data = result.location ? result.location : result
-					    	const { longitude, latitude, address } = data
-					    	setState({ longitude, latitude, address })
-					    },
-					    onFail(err) {
-					    	console.error('getLocation error -> ', err)
-					    }
-			      })
+				    const p4 = new Promise((resolve, reject) => {
+				    	/** checkWIfi */
+				      dd.device.base.getInterface({
+				      	onSuccess(info) {
+				      		info = JSON.parse(JSON.stringify(info))
+				      		// alert('checkWIfi success ' + JSON.stringify(info))
+				      		setState({
+				      			ssid: info.ssid,
+				      			mac_addr: info.macIp
+				      		})
+				      		resolve(4)
+				      	},
+				      	onFail(err) {
+				      		alert(`checkWifi error -> ${JSON.stringify(err)}`)
+				          console.error('checkWifi error -> ', JSON.stringify(err))
+				          reject(4)
+				      	}
+				      })
+				    }).catch(e => alert(`checkWifi error -> ${JSON.stringify(e)}`))
 
+				    Promise.all([p1, p2, p3, p4])
+  					.then(data => {
+  						alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						setState({ initialized: true })
+  						Toast.hide()
+  					})
+  					.catch(e => alert(`init Promise.all error -> ${JSON.stringify(e)}`))
 
-			      /** checkWIfi */
-			      dd.device.base.getInterface({
-			      	onSuccess(info) {
-			      		info = JSON.parse(JSON.stringify(info))
-			      		alert('checkWIfi success ' + JSON.stringify(info))
-			      		setState({
-			      			ssid: info.ssid,
-			      			mac_addr: info.macIp
-			      		})
-
-			      	},
-			      	onFail(err) {
-			          console.error('checkWifi error -> ', JSON.stringify(err))
-			      	}
-			      })
   				})
-
-
-
   			}
-
   		}
   	} catch(e) {
   		console.error('init logic error -> ', e)
