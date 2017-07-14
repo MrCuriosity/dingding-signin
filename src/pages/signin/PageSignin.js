@@ -4,7 +4,7 @@ import moment from 'moment'
 import './PageSignin.less'
 
 const { HBox, VBox, Box } = SaltUI.Boxs
-const { Avatar, Icon } = SaltUI
+const { Avatar, Icon, Dialog } = SaltUI
 const jsApiList = [
   'biz.user.get',
   'device.base.getInterface',
@@ -14,6 +14,8 @@ export default class PageSignin extends Component {
 
   constructor(props) {
     super(props, logic)
+    this.showDialog = this.showDialog.bind(this)
+    this.hideDialog = this.hideDialog.bind(this)
     this.checkWifi = this.checkWifi.bind(this)
     this.handleSignin = this.handleSignin.bind(this)
   }
@@ -21,11 +23,17 @@ export default class PageSignin extends Component {
     const { ssid, mac_addr } = this.state
     this.dispatch('checkWifi', { ssid, mac_addr })
   }
+  showDialog() {
+    this.checkWifi()
+    this.setState({ dialogShow: true })
+  }
+  hideDialog() {
+    this.setState({ dialogShow: false })
+  }
   handleSignin() {
-
+    alert('handleSignin')
   }
   componentWillMount() {
-    // this.dispatch('getConfig', { url: encodeURI(window.location.href.split('#')[0]) })
     this.dispatch('init', { url: encodeURI(window.location.href.split('#')[0]) })
   }
   componentDidMount() {
@@ -55,7 +63,7 @@ export default class PageSignin extends Component {
               <Box className='usergroup' flex={1}>{this.state.usergroup}</Box>
             </VBox>
           </HBox>
-          <Box flex={1} className="on_work_container" onClick={this.checkWifi}>
+          <Box flex={1} className="on_work_container" onClick={this.showDialog}>
             {
               onWorkLog ?
               <VBox vAlign='start' className="click_field">
@@ -70,7 +78,7 @@ export default class PageSignin extends Component {
               </VBox>
             }
           </Box>
-          <Box flex={1} className="out_work_container" onClick={this.checkWifi}>
+          <Box flex={1} className="out_work_container" onClick={this.showDialog}>
             {
               outWorkLog ?
                 <VBox className="click_field">
@@ -86,6 +94,14 @@ export default class PageSignin extends Component {
               }
           </Box>
         </VBox>
+        <Dialog
+          show={this.state.dialogShow}
+          type={'confirm'}
+          onCancel={this.hideDialog}
+          onConfirm={this.handleSignin}
+        >
+          this is a Dialog
+        </Dialog>
       </div>
     )
   }

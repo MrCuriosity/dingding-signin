@@ -3,6 +3,7 @@ import dingdingConfig from './ddconfig.js'
 const jsApiList = [
   'biz.user.get',
   'device.base.getInterface',
+  'device.base.getUUID',
   'device.geolocation.get'
 ]
 
@@ -14,10 +15,15 @@ export default {
       username: '',
       usergroup: '',
       avatar: '',
+      device_id: '',
       ssid: '',
       mac_addr: '',
       wifi: false,
+      address: '',
+      longitude: null,
+      latitude: null,
       todayLog: [],
+      dialogShow: false,
       loading: false
     };
   },
@@ -65,6 +71,36 @@ export default {
 			        }
 			      })
 
+			      /** get device_id */
+			      dd.device.base.getUUID({
+					    onSuccess(data) {
+					    	// alert('getDeviceId success => ' + JSON.stringify(data))
+					    	setState({ device_id: data.uuid })
+					    },
+					    onFail(err) {
+					    	alert(JSON.stringify(err))
+					    	console.error('get device_id error -> ', err)
+					    }
+						})
+
+			      /** get location */
+			      dd.device.geolocation.get({
+			      	targetAccuracy : 200,
+					    coordinate : 1,// 1 => 高德 | 2 => 标准
+					    withReGeocode : true,
+					    onSuccess(result) {
+					      // alert('getLocation success => ' + JSON.stringify(result))
+					      result = JSON.parse(JSON.stringify(result))
+					    	const data = result.location ? result.location : result
+					    	const { longitude, latitude, address } = data
+					    	setState({ longitude, latitude, address })
+					    },
+					    onFail(err) {
+					    	console.error('getLocation error -> ', err)
+					    }
+			      })
+
+
 			      /** checkWIfi */
 			      dd.device.base.getInterface({
 			      	onSuccess(info) {
@@ -77,7 +113,7 @@ export default {
 
 			      	},
 			      	onFail(err) {
-			          alert('checkWifi fail: ' + JSON.stringify(err))
+			          console.error('checkWifi error -> ', JSON.stringify(err))
 			      	}
 			      })
   				})
