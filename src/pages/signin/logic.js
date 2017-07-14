@@ -16,6 +16,7 @@ export default {
       avatar: '',
       ssid: '',
       mac_addr: '',
+      wifi: false,
       todayLog: [],
       loading: false
     };
@@ -73,6 +74,7 @@ export default {
 			      			ssid: info.ssid,
 			      			mac_addr: info.macIp
 			      		})
+
 			      	},
 			      	onFail(err) {
 			          alert('checkWifi fail: ' + JSON.stringify(err))
@@ -142,8 +144,8 @@ export default {
   	try {
   		const result = await fn.DB.Signin.checkWifi({ ssid, mac_addr })
   		console.log('checkWifi result => ', result)
-  		const { code } = result
-  		if (code && code === 200) {
+  		const { code, data } = result
+  		if (code && data && code === 200) {
   			setState({ wifi: true })
   		} else {
   			setState({ wifi: false })
