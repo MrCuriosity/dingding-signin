@@ -23,9 +23,10 @@ export default {
       mac_addr: '',
       wifi: false,
       address: '',
-      longitude: null,
-      latitude: null,
+      longitude: undefined,
+      latitude: undefined,
       todayLog: [],
+      nearLog: undefined,
       dialogShow: false,
       loading: false
     };
@@ -142,7 +143,7 @@ export default {
 
 				    Promise.all([p1, p2, p3, p4])
   					.then(data => {
-  						alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					})
@@ -178,10 +179,10 @@ export default {
   /** 获取今天打卡记录 */
   async todayLog({ fn, setState }, userId) {
   	try {
-  		alert('todayLog userId ' + userId)
+  		alert(`todayLog userId => ${JSON.stringify(userId)}`)
   		const result = await fn.DB.Signin.todayLog({ ':user_id': userId })
   		console.log('todayLog result => ', result)
-  		alert('todayLog result => ' + result)
+  		alert(`todayLog result => ${JSON.stringify(result)}`)
   		const { data } = result
   		if (data) {
   			setState({ todayLog })
@@ -194,12 +195,14 @@ export default {
   async nearLog({ fn, setState }, { time, user_id }) {
   	try {
   		const result = await fn.DB.Signin.nearLog({ time, user_id })
+  		alert(`nearLog result => ${JSON.stringify(result)}`)
   		console.log('nearLog result => ', result)
   		const { data } = result
   		if (data) {
   			setState({ nearLog })
   		}
   	} catch(e) {
+  		alert(`nearLog error -> ${JSON.stringify(e)}`)
   		console.error('nearLog logic error -> ', e)
   	}
   },
@@ -219,16 +222,20 @@ export default {
   	}
   },
   /** 打卡 */
-  async signin({ fn, setState }, { postJSON, type }) {
+  async signin({ fn, setState }, { postJSON, userId }) {
   	try {
-  		const { check_datetime } = postJSON
   		const result = await fn.DB.Signin.signin(postJSON)
   		console.log('signin result => ', result)
+  		alert(`signin result => ${JSON.stringify(result)}`)
   		const { code } = result
   		if (code && code === 200) {
   			console.log('signin ok')
+  			const refresh = await fn.DB.Signin.todayLog({ ':user_id': userId })
+				// alert(`refresh todayLog result => ${JSON.stringify(refresh)}`)
+				setState({ todayLog: refresh.data })
   		}
   	} catch(e) {
+  		alert(`signin logic error -> ${JSON.stringify(e)}`)
   		console.error('signin logic error -> ', e)
   	}
   }

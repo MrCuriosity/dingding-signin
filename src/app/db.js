@@ -46,6 +46,13 @@ context.create('Signin', {
      * ssid => 
      * mac_addr => 
      */
+    willFetch() {
+      Toast.show({
+        type: 'loading',
+        content: '检查WiFi是否可用...',
+      })
+    },
+    didFetch: () => Toast.hide(),
     method: 'GET',
     mockUrl: '/api/v1/logon/wifi/ssid_mac',
     url: `${urlPrefix}/api/v1/logon/wifi/ssid_mac`,

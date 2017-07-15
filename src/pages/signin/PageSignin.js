@@ -17,21 +17,40 @@ export default class PageSignin extends Component {
     this.showDialog = this.showDialog.bind(this)
     this.hideDialog = this.hideDialog.bind(this)
     this.checkWifi = this.checkWifi.bind(this)
+    this.getNearLog = this.getNearLog.bind(this)
     this.handleSignin = this.handleSignin.bind(this)
   }
   checkWifi() {
     const { ssid, mac_addr } = this.state
     this.dispatch('checkWifi', { ssid, mac_addr })
   }
+  getNearLog() {
+    const time = moment().format('HH:mm:ss')
+    const user_id = this.state.userid
+    this.dispatch('nearLog', { time, user_id })
+  }
   showDialog() {
     this.checkWifi()
+    this.getNearLog()
     this.setState({ dialogShow: true })
   }
   hideDialog() {
     this.setState({ dialogShow: false })
   }
   handleSignin() {
-    alert('handleSignin')
+    const postJSON = {
+      user_id: this.state.userid,
+      check_datetime: moment().format('YYYY-MM-DD HH:mm:ss'),
+      location_method: this.state.wifi ? 0 : 1,
+      device_id: this.state.device_id,
+      user_longitude: this.state.longitude,
+      user_latitude: this.state.latitude,
+      user_address: this.state.address,
+      user_ssid: this.state.ssid,
+      user_mac_addr: this.state.mac_addr
+    }
+    const userId = this.state.userid
+    this.dispatch(['signin'], { postJSON, userId })
   }
   componentWillMount() {
     this.dispatch('init', { url: encodeURI(window.location.href.split('#')[0]) })
@@ -51,6 +70,18 @@ export default class PageSignin extends Component {
     }
     const onWorkLog = this.state.todayLog[0]
     const outWorkLog = this.state.todayLog[1]
+    const { nearLog } = this.state
+    const nearTitle = nearLog && nearLog.title ? nearLog.title : undefined
+    const nearCheckType = nearLog && nearLog.check_type ? nearLog.check_type : undefined
+    let nearTime
+    if (!nearLog) {
+      nearTime = undefined
+    } else if (nearCheckType === 1) {
+      nearTime = nearLog.start_time
+    } else if (nearCheckType === 2) {
+      nearTime = nearLog.end_time
+    }
+
     return (
       <div className="page-signin">
         <VBox vAlign='start' className='header_container'>
@@ -59,8 +90,8 @@ export default class PageSignin extends Component {
               <Avatar name={this.state.username} src={this.state.avatar} size={40}  />
             </Box>
             <VBox flex={1} className='userInfo_container'>
-              <Box className='username' flex={1}>{this.state.username}</Box>
-              <Box className='usergroup' flex={1}>{this.state.usergroup}</Box>
+              <Box className='username' flex={1}>{this.state.username ? this.state.username : '员工'}</Box>
+              <Box className='usergroup' flex={1}>{this.state.usergroup ? this.state.usergroup : '所属小组'}</Box>
             </VBox>
           </HBox>
           <Box flex={1} className="on_work_container" onClick={this.showDialog}>
@@ -74,7 +105,7 @@ export default class PageSignin extends Component {
               :
               <VBox vAlign='start' className="click_field">
                 <Box flex={1}><Icon width={'60px'} height={'100%'} name='face-sad-full' fill={color.warn} /></Box>
-                <Box flex={0} style={{ height: 32, lineHeight: '32px' }}>暂无记录</Box>
+                <Box flex={0} style={{ height: 32, lineHeight: '32px' }}>今日暂无记录</Box>
               </VBox>
             }
           </Box>
@@ -89,7 +120,7 @@ export default class PageSignin extends Component {
                 :
                 <VBox className="click_field">
                   <Box flex={1}><Icon width={'60px'} height={'100%'} name='face-sad-full' fill={color.warn} /></Box>
-                  <Box flex={0} style={{ height: 32, lineHeight: '32px' }}>暂无记录</Box>
+                  <Box flex={0} style={{ height: 32, lineHeight: '32px' }}>今日暂无记录</Box>
                 </VBox>
               }
           </Box>
@@ -100,7 +131,19 @@ export default class PageSignin extends Component {
           onCancel={this.hideDialog}
           onConfirm={this.handleSignin}
         >
-          this is a Dialog
+          <div>
+            {
+              !nearLog ? <p>无法获取打卡信息</p>
+              :
+              <p>
+                <span style={{ marginLeft: 10 }}>{nearTitle}</span>
+                <span>{nearTime}</span>
+              </p>
+            }
+            {
+              this.state.wifi ? <p>进入WiFi打卡范围</p> : <p>当前WiFi不可用，将使用GPS打卡</p>
+            }
+          </div>
         </Dialog>
       </div>
     )
