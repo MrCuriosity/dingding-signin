@@ -63,16 +63,11 @@ export default {
 				        onSuccess: async function (info) {
 				          info = JSON.parse(JSON.stringify(info))
 				          setState({
-				          	userid: info.id,
 				          	username: info.nickName,
 				          	avatar: info.avatar
 				          })
 				          // alert('getUser success => ' + JSON.stringify(info))
-				          
-				          /** get todayLog */
-	  							const result = await fn.DB.Signin.todayLog({ ':user_id': info.id })
-	  							// alert(`init todayLog result => ${JSON.stringify(result)}`)
-	  							setState({ todayLog: result.data })
+
 	  							resolve(1)
 				        },
 				        onFail: function (err) {
@@ -87,7 +82,7 @@ export default {
   						/** get device_id */
 				      dd.device.base.getUUID({
 						    onSuccess(data) {
-						    	// alert('getDeviceId success => ' + JSON.stringify(data))
+						    	alert('getDeviceId success => ' + JSON.stringify(data))
 						    	setState({ device_id: data.uuid })
 						    	resolve(2)
 						    },
@@ -98,6 +93,47 @@ export default {
 						    }
 							})
   					}).catch(e => alert(`p2 error -> ${JSON.stringify(e)}`))
+
+						
+  					const p5 = new Promise((resolve, reject) => {
+  						/** userid, device_id, todayLog, usergroup */
+  						let { corpId } = ddconfig
+  						dd.runtime.permission.requestAuthCode({
+						    corpId,
+						    onSuccess: async function(result) {
+						    	alert(`runtime.permission.requestAuthCode succeed = > ${JSON.stringify(result)}`)
+
+						    	/** get userid && device_id */
+						    	const { code } = JSON.parse(JSON.stringify(result))
+						    	const userIdResult = await fn.DB.Signin.getUserId({ ':code': code }).catch(e => alert(`${JSON.stringify(e)}`))
+						    	alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
+						    	const { user_id, device_id } = userIdResult.data
+						    	setState({ userid: user_id, device_id })
+
+						    	/** getGroup */
+									const groupResult = await fn.DB.Signin.getGroup({ ':user_id': user_id })
+									alert(`groupResult => ${JSON.stringify(groupResult)}`)
+
+						    	/** get todayLog */
+									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
+									alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
+
+									setState({
+										userid: user_id,
+										device_id,
+										usergroup: groupResult.data.name,
+										todayLog: todayLogResult.data,
+									})
+
+						    	resolve(5)
+						    },
+						    onFail(err) {
+						    	alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
+                  console.error('runtime.permission.requestAuthCode failed -> ', e)
+                  reject(5)
+						    }
+							})
+  					}).catch(e => alert(`p5 error -> ${JSON.stringify(e)}`))
 
 				    const p3 = new Promise((resolve, reject) => {
 				    	/** get location */
@@ -141,11 +177,13 @@ export default {
 				      })
 				    }).catch(e => alert(`checkWifi error -> ${JSON.stringify(e)}`))
 
-				    Promise.all([p1, p2, p3, p4])
+				    Promise.all([p1, p2, p3, p4, p5])
   					.then(data => {
-  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
+  					}, reason => {
+  						alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
   					})
   					.catch(e => alert(`init Promise.all error -> ${JSON.stringify(e)}`))
 
@@ -176,21 +214,6 @@ export default {
   	}
   },
 
-  /** 获取今天打卡记录 */
-  async todayLog({ fn, setState }, userId) {
-  	try {
-  		alert(`todayLog userId => ${JSON.stringify(userId)}`)
-  		const result = await fn.DB.Signin.todayLog({ ':user_id': userId })
-  		console.log('todayLog result => ', result)
-  		alert(`todayLog result => ${JSON.stringify(result)}`)
-  		const { data } = result
-  		if (data) {
-  			setState({ todayLog })
-  		}
-  	} catch(e) {
-  		console.error('todayLog logic error -> ', e)
-  	}
-  },
   /** 获取最近打卡记录 */
   async nearLog({ fn, setState }, { time, user_id }) {
   	try {
@@ -199,7 +222,7 @@ export default {
   		console.log('nearLog result => ', result)
   		const { data } = result
   		if (data) {
-  			setState({ nearLog })
+  			setState({ nearLog: data })
   		}
   	} catch(e) {
   		alert(`nearLog error -> ${JSON.stringify(e)}`)

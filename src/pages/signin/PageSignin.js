@@ -136,7 +136,7 @@ export default class PageSignin extends Component {
               !nearLog ? <p>无法获取打卡信息</p>
               :
               <p>
-                <span style={{ marginLeft: 10 }}>{nearTitle}</span>
+                <span style={{ marginRight: 10 }}>{nearTitle}</span>
                 <span>{nearTime}</span>
               </p>
             }

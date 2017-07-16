@@ -39,6 +39,17 @@ context.create('Signin', {
     url: `${urlPrefix}/api/v1/dingding/config`
   },
 
+  getUserId: {
+    /**
+     * [query]
+     * :code
+     */
+    method: 'GET',
+    rest: true,
+    mockUrl: '/api/v1/dingding/user_info/:code',
+    url: `${urlPrefix}/api/v1/dingding/user_info/:code`
+  },
+
   // getGroup
   getGroup: {
     /** 
@@ -46,6 +57,7 @@ context.create('Signin', {
      * :user_id
      */
     method: 'GET',
+    rest: true,
     mockUrl: '/api/v1/logon/dept/user_id/:user_id',
     url: `${urlPrefix}/api/v1/logon/dept/user_id/:user_id`
   },
