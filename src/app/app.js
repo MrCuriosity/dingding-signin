@@ -5,8 +5,6 @@ import { render } from 'react-dom';
 import FastClick from 'fastclick';
 import { isDev } from 'variables';
 
-import PageHome from 'pages/home';
-import PageDemo from 'pages/demo';
 import Signin from 'pages/signin';
 import DB from 'db';
 import './app.less';
@@ -53,8 +51,6 @@ render(
   <Router history={customHistory}>
     <Route name="app" path="/" component={App}>
       <IndexRoute component={Signin} />
-      <Route path="home" component={PageHome} />
-      <Route path="demo" component={PageDemo} />
       <Route path="signin" component={Signin} />
     </Route>
   </Router>,
