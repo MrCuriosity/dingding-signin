@@ -71,28 +71,34 @@ export default {
 	  							resolve(1)
 				        },
 				        onFail: function (err) {
-				          alert(`getUser error ${JSON.stringify(err)}`)
+				          // alert(`getUser error ${JSON.stringify(err)}`)
 				          console.error('getUser error -> ', err)
 				        	reject(1)
 				        }
 				      })
-  					}).catch(e => alert(`p1 error -> ${JSON.stringify(e)}`))
+  					}).catch(e => {
+              // alert(`p1 error -> ${JSON.stringify(e)}`)
+              console.error(`p1 error -> ${JSON.stringify(e)}`)
+            })
 
   					const p2 = new Promise((resolve, reject) => {
   						/** get device_id */
 				      dd.device.base.getUUID({
 						    onSuccess(data) {
-						    	alert('getDeviceId success => ' + JSON.stringify(data))
+						    	// alert('getDeviceId success => ' + JSON.stringify(data))
 						    	setState({ device_id: data.uuid })
 						    	resolve(2)
 						    },
 						    onFail(err) {
-						    	alert(`get device_id error -> ${JSON.stringify(err)}`)
+						    	// alert(`get device_id error -> ${JSON.stringify(err)}`)
 						    	console.error('get device_id error -> ', err)
 						    	reject(2)
 						    }
 							})
-  					}).catch(e => alert(`p2 error -> ${JSON.stringify(e)}`))
+  					}).catch(e => {
+              // alert(`p2 error -> ${JSON.stringify(e)}`)
+              console.error(`p2 error -> ${JSON.stringify(e)}`)
+            })
 
 						
   					const p5 = new Promise((resolve, reject) => {
@@ -101,22 +107,22 @@ export default {
   						dd.runtime.permission.requestAuthCode({
 						    corpId,
 						    onSuccess: async function(result) {
-						    	alert(`runtime.permission.requestAuthCode succeed = > ${JSON.stringify(result)}`)
+						    	// alert(`runtime.permission.requestAuthCode succeed = > ${JSON.stringify(result)}`)
 
 						    	/** get userid && device_id */
 						    	const { code } = JSON.parse(JSON.stringify(result))
 						    	const userIdResult = await fn.DB.Signin.getUserId({ ':code': code }).catch(e => alert(`${JSON.stringify(e)}`))
-						    	alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
+						    	// alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
 						    	const { user_id, device_id } = userIdResult.data
 						    	setState({ userid: user_id, device_id })
 
 						    	/** getGroup */
 									const groupResult = await fn.DB.Signin.getGroup({ ':user_id': user_id })
-									alert(`groupResult => ${JSON.stringify(groupResult)}`)
+									// alert(`groupResult => ${JSON.stringify(groupResult)}`)
 
 						    	/** get todayLog */
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
-									alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
+									// alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
 
 									setState({
 										userid: user_id,
@@ -128,12 +134,15 @@ export default {
 						    	resolve(5)
 						    },
 						    onFail(err) {
-						    	alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
+						    	// alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
                   console.error('runtime.permission.requestAuthCode failed -> ', e)
                   reject(5)
 						    }
 							})
-  					}).catch(e => alert(`p5 error -> ${JSON.stringify(e)}`))
+  					}).catch(e => {
+              // alert(`p5 error -> ${JSON.stringify(e)}`)
+              console.error(`p5 error -> ${JSON.stringify(e)}`)
+            })
 
 				    const p3 = new Promise((resolve, reject) => {
 				    	/** get location */
@@ -150,12 +159,15 @@ export default {
 						    	resolve(3)
 						    },
 						    onFail(err) {
-						    	alert(`getLocation error -> ${JSON.stringify(err)}`)
+						    	// alert(`getLocation error -> ${JSON.stringify(err)}`)
 						    	console.error('getLocation error -> ', err)
 						    	reject(3)
 						    }
 				      })
-				    }).catch(e => alert(`getLocation error -> ${JSON.stringify(e)}`))
+				    }).catch(e => {
+              // alert(`getLocation error -> ${JSON.stringify(e)}`)
+              console.error(`getLocation error -> ${JSON.stringify(e)}`)
+            })
 
 				    const p4 = new Promise((resolve, reject) => {
 				    	/** checkWIfi */
@@ -170,22 +182,28 @@ export default {
 				      		resolve(4)
 				      	},
 				      	onFail(err) {
-				      		alert(`checkWifi error -> ${JSON.stringify(err)}`)
+				      		// alert(`checkWifi error -> ${JSON.stringify(err)}`)
 				          console.error('checkWifi error -> ', JSON.stringify(err))
 				          reject(4)
 				      	}
 				      })
-				    }).catch(e => alert(`checkWifi error -> ${JSON.stringify(e)}`))
+				    }).catch(e => {
+              // alert(`checkWifi error -> ${JSON.stringify(e)}`)
+              console.error(`checkWifi error -> ${JSON.stringify(e)}`)
+            })
 
 				    Promise.all([p1, p2, p3, p4, p5])
   					.then(data => {
-  						alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					}, reason => {
-  						alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
+  						// alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
   					})
-  					.catch(e => alert(`init Promise.all error -> ${JSON.stringify(e)}`))
+  					.catch(e => {
+              // alert(`init Promise.all error -> ${JSON.stringify(e)}`)
+              console.error(`init Promise.all error -> ${JSON.stringify(e)}`)
+            })
 
   				})
   			}
@@ -218,14 +236,14 @@ export default {
   async nearLog({ fn, setState }, { time, user_id }) {
   	try {
   		const result = await fn.DB.Signin.nearLog({ time, user_id })
-  		alert(`nearLog result => ${JSON.stringify(result)}`)
+  		// alert(`nearLog result => ${JSON.stringify(result)}`)
   		console.log('nearLog result => ', result)
   		const { data } = result
   		if (data) {
   			setState({ nearLog: data })
   		}
   	} catch(e) {
-  		alert(`nearLog error -> ${JSON.stringify(e)}`)
+  		// alert(`nearLog error -> ${JSON.stringify(e)}`)
   		console.error('nearLog logic error -> ', e)
   	}
   },
@@ -247,20 +265,26 @@ export default {
   /** 打卡 */
   async signin({ fn, setState }, { postJSON, userId }) {
   	try {
-      alert(`${JSON.stringify(postJSON)}`)
 
   		const result = await fn.DB.Signin.signin(postJSON)
   		console.log('signin result => ', result)
-  		alert(`signin result => ${JSON.stringify(result)}`)
+  		// alert(`signin result => ${JSON.stringify(result)}`)
   		const { code } = result
   		if (code && code === 200) {
   			console.log('signin ok')
+        Toast.show({
+          type: 'success',
+          content: '打卡成功！'
+        });
   			const refresh = await fn.DB.Signin.todayLog({ ':user_id': userId })
 				// alert(`refresh todayLog result => ${JSON.stringify(refresh)}`)
-				setState({ todayLog: refresh.data })
+				setState({
+          todayLog: refresh.data,
+          dialogShow: false
+        })
   		}
   	} catch(e) {
-  		alert(`signin logic error -> ${JSON.stringify(e)}`)
+  		// alert(`signin logic error -> ${JSON.stringify(e)}`)
   		console.error('signin logic error -> ', e)
   	}
   }

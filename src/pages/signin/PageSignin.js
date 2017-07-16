@@ -68,8 +68,21 @@ export default class PageSignin extends Component {
       warn: 'rgba(230, 81, 0, 1)',
       award: 'rgba(123, 195, 128, 1)'
     }
-    const onWorkLog = this.state.todayLog[0]
-    const outWorkLog = this.state.todayLog[1]
+    const getWorkLog = ({ todayLog, type }) => {
+      if (!todayLog) {
+        return undefined
+      }
+      let i
+      for (i = 0; i < todayLog.length; i++) {
+        if (todayLog[i].check_type == type) {
+          return Object.assign(todayLog[i], {})
+        }
+      }
+      return undefined
+    }
+    const onWorkLog = getWorkLog({ todayLog: this.state.todayLog, type: 1 })
+    const outWorkLog = getWorkLog({ todayLog: this.state.todayLog, type: 2 })
+
     const { nearLog } = this.state
     const nearTitle = nearLog && nearLog.title ? nearLog.title : undefined
     const nearCheckType = nearLog && nearLog.check_type ? nearLog.check_type : undefined
@@ -77,24 +90,30 @@ export default class PageSignin extends Component {
     if (!nearLog) {
       nearTime = undefined
     } else if (nearCheckType === 1) {
-      nearTime = nearLog.start_time
+      nearTime = `${nearLog.start_time} 前`
     } else if (nearCheckType === 2) {
-      nearTime = nearLog.end_time
+      nearTime = `${nearLog.end_time} 后`
     }
 
     return (
       <div className="page-signin">
         <VBox className='header_container'>
+          {/** 头像及按钮 */}
           <HBox className="avatar_container">
             <Box flex={0} className='avatarStyle'>
               <Avatar name={this.state.username} src={this.state.avatar} size={40}  />
             </Box>
             <VBox flex={1} className='userInfo_container'>
-              <Box className='username' flex={1}>{this.state.username ? this.state.username : '员工'}</Box>
-              <Box className='usergroup' flex={1}>{this.state.usergroup ? this.state.usergroup : '所属小组'}</Box>
+              <Box className='username' flex={1}>{this.state.username ? this.state.username : '-'}</Box>
+              <Box className='usergroup' flex={1}>{this.state.usergroup ? this.state.usergroup : '-'}</Box>
             </VBox>
+            <Box className='signin_button' onClick={this.showDialog}>
+              <span className='signin_button_text'>打卡</span>
+              <Icon fill={'#108ee9'} name='time' height={'40px'} width={'24px'} />
+            </Box>
           </HBox>
-          <Box flex={1} className="on_work_container" onClick={this.showDialog}>
+          {/** 上班记录 */}
+          <Box flex={1} className="on_work_container">
             {
               onWorkLog ?
               <VBox vAlign='center' className="click_field">
@@ -109,7 +128,8 @@ export default class PageSignin extends Component {
               </VBox>
             }
           </Box>
-          <Box flex={1} className="out_work_container" onClick={this.showDialog}>
+          {/** 下班记录 */}
+          <Box flex={1} className="out_work_container">
             {
               outWorkLog ?
                 <VBox vAlign='center' className="click_field">
@@ -135,10 +155,11 @@ export default class PageSignin extends Component {
             {
               !nearLog ? <p>无法获取打卡信息</p>
               :
-              <p>
+              <div>
                 <span style={{ marginRight: 10 }}>{nearTitle}</span>
                 <span>{nearTime}</span>
-              </p>
+                <p>现在时间：{moment().format('HH:mm:ss')}</p>
+              </div>
             }
             {
               this.state.wifi ? <p>进入WiFi打卡范围</p> : <p>当前WiFi不可用，将使用GPS打卡</p>
