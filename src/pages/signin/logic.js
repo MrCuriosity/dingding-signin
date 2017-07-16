@@ -247,6 +247,8 @@ export default {
   /** 打卡 */
   async signin({ fn, setState }, { postJSON, userId }) {
   	try {
+      alert(`${JSON.stringify(postJSON)}`)
+
   		const result = await fn.DB.Signin.signin(postJSON)
   		console.log('signin result => ', result)
   		alert(`signin result => ${JSON.stringify(result)}`)

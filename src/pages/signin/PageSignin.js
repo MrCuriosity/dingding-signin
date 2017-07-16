@@ -84,7 +84,7 @@ export default class PageSignin extends Component {
 
     return (
       <div className="page-signin">
-        <VBox vAlign='start' className='header_container'>
+        <VBox className='header_container'>
           <HBox className="avatar_container">
             <Box flex={0} className='avatarStyle'>
               <Avatar name={this.state.username} src={this.state.avatar} size={40}  />
@@ -97,30 +97,30 @@ export default class PageSignin extends Component {
           <Box flex={1} className="on_work_container" onClick={this.showDialog}>
             {
               onWorkLog ?
-              <VBox vAlign='start' className="click_field">
-                <Box><Icon name='check-round' fill={color.normal} /></Box>
-                <Box>{onWorkLog.title}</Box>
-                <Box>{onWorkLog.check_datetime}</Box>
+              <VBox vAlign='center' className="click_field">
+                <Box><Icon width={'60px'} height={'100%'} name='check-round' fill={color.normal} /></Box>
+                <Box className='signin_status_text'>{onWorkLog.title}</Box>
+                <Box className='signin_time_text'>{onWorkLog.check_datetime}</Box>
               </VBox>
               :
-              <VBox vAlign='start' className="click_field">
-                <Box flex={1}><Icon width={'60px'} height={'100%'} name='face-sad-full' fill={color.warn} /></Box>
-                <Box flex={0} style={{ height: 32, lineHeight: '32px' }}>今日暂无记录</Box>
+              <VBox hAlign='center' className="click_field">
+                <Box flex={1} ><Icon width={'60px'} height={'100%'} name='face-sad-full' fill={color.warn} /></Box>
+                <Box className='noLog_text'>今日暂无记录</Box>
               </VBox>
             }
           </Box>
           <Box flex={1} className="out_work_container" onClick={this.showDialog}>
             {
               outWorkLog ?
-                <VBox className="click_field">
-                  <p><Icon name='check-round' fill={color.normal} /></p>
-                  <p>{outWorkLog.title}</p>
-                  <p>{outWorkLog.check_datetime}</p>
+                <VBox vAlign='center' className="click_field">
+                  <Box><Icon width={'60px'} height={'100%'} name='check-round' fill={color.normal} /></Box>
+                  <Box className='signin_status_text'>{outWorkLog.title}</Box>
+                  <Box className='signin_time_text'>{outWorkLog.check_datetime}</Box>
                 </VBox>
                 :
-                <VBox className="click_field">
-                  <Box flex={1}><Icon width={'60px'} height={'100%'} name='face-sad-full' fill={color.warn} /></Box>
-                  <Box flex={0} style={{ height: 32, lineHeight: '32px' }}>今日暂无记录</Box>
+                <VBox flex={1} hAlign='center' className="click_field">
+                  <Box flex={1}><div><Icon width={'60px'} height={'100%'} name='face-sad-full' fill={color.warn} /></div></Box>
+                  <Box className='noLog_text'>今日暂无记录</Box>
                 </VBox>
               }
           </Box>
