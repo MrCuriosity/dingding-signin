@@ -39,6 +39,17 @@ context.create('Signin', {
     url: `${urlPrefix}/api/v1/dingding/config`
   },
 
+  // getGroup
+  getGroup: {
+    /** 
+     * [query]
+     * :user_id
+     */
+    method: 'GET',
+    mockUrl: '/api/v1/logon/dept/user_id/:user_id',
+    url: `${urlPrefix}/api/v1/logon/dept/user_id/:user_id`
+  },
+
   // if wifi available
   checkWifi: {
     /**
