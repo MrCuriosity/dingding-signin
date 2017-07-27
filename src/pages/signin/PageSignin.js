@@ -118,7 +118,7 @@ export default class PageSignin extends Component {
               onWorkLog ?
               <VBox vAlign='center' className="click_field">
                 <Box><Icon width={'60px'} height={'100%'} name='check-round' fill={color.normal} /></Box>
-                <Box className='signin_status_text'>{onWorkLog.title}</Box>
+                <Box className='signin_status_text'>{/*onWorkLog.title*/}打卡时间</Box>
                 <Box className='signin_time_text'>{onWorkLog.check_datetime}</Box>
               </VBox>
               :
@@ -134,7 +134,7 @@ export default class PageSignin extends Component {
               outWorkLog ?
                 <VBox vAlign='center' className="click_field">
                   <Box><Icon width={'60px'} height={'100%'} name='check-round' fill={color.normal} /></Box>
-                  <Box className='signin_status_text'>{outWorkLog.title}</Box>
+                  <Box className='signin_status_text'>{/*outWorkLog.title*/}打卡时间</Box>
                   <Box className='signin_time_text'>{outWorkLog.check_datetime}</Box>
                 </VBox>
                 :
@@ -156,8 +156,8 @@ export default class PageSignin extends Component {
               !nearLog ? <p>无法获取打卡信息</p>
               :
               <div>
-                <span style={{ marginRight: 10 }}>{nearTitle}</span>
-                <span>{nearTime}</span>
+                {/*<span style={{ marginRight: 10 }}>{nearTitle}</span>
+                <span>{nearTime}</span>*/}
                 <p>现在时间：{moment().format('HH:mm:ss')}</p>
               </div>
             }
