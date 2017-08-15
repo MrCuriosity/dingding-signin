@@ -28,7 +28,7 @@ try {
   setup('fn', {
     toast: Toast,
     dialog: Dialog,
-    DB,
+    DB: DB,
     history: customHistory
   });
 
@@ -37,11 +37,13 @@ try {
 
   // 修改 LogicRender 增加默认配置
   // 用来自定义Loading和Empty的样式
-  Object.assign(LogicRender.defaultProps, { Empty, Loading });
 
 } catch(e) {
   alert(`App init error => ${JSON.stringify(e)}`)
 }
+
+Object.assign(LogicRender.defaultProps, { Empty, Loading });
+
 class App extends Component {
   render() {
     return (
