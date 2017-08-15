@@ -13,12 +13,13 @@ const { Toast, Dialog } = window.SaltUI;
 const customHistory = hashHistory;
 
 try {
-  if (isDev && window.chrome && window.chrome.webstore) { // This is a Chrome only hack
-    // see https://github.com/livereload/livereload-extensions/issues/26
-    setInterval(() => {
-      document.body.focus();
-    }, 200);
-  }
+
+  // if (isDev && window.chrome && window.chrome.webstore) { // This is a Chrome only hack
+  //   // see https://github.com/livereload/livereload-extensions/issues/26
+  //   setInterval(() => {
+  //     document.body.focus();
+  //   }, 200);
+  // }
 
   // bind fastclick
   FastClick && FastClick.attach(document.body);
@@ -28,7 +29,7 @@ try {
     toast: Toast,
     dialog: Dialog,
     DB,
-    history: customHistory,
+    history: customHistory
   });
 
   const Loading = () => <div className="kuma-loading" />;
@@ -41,10 +42,10 @@ try {
   class App extends Component {
     render() {
       return (
-        <div className={'appContainerStyle'}>
+        <div className='appContainerStyle'>
           {this.props.children}
         </div>
-      );
+      )
     }
   }
 
@@ -55,7 +56,7 @@ try {
         <Route path="signin" component={Signin} />
       </Route>
     </Router>,
-    document.getElementById('App'),
+    document.getElementById('App')
   );
 } catch(e) {
   alert(`App init error => ${JSON.stringify(e)}`)
