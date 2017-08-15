@@ -32,9 +32,6 @@ try {
     history: customHistory
   });
 
-  const Loading = () => <div className="kuma-loading"></div>;
-  const Empty = () => <div>暂无数据</div>;
-
   // 修改 LogicRender 增加默认配置
   // 用来自定义Loading和Empty的样式
 
@@ -42,7 +39,9 @@ try {
   alert(`App init error => ${JSON.stringify(e)}`)
 }
 
-Object.assign(LogicRender.defaultProps, { Empty, Loading });
+const Loading = () => <div className="kuma-loading"></div>;
+const Empty = () => <div>暂无数据</div>;
+Object.assign(LogicRender.defaultProps, { Empty: Empty, Loading: Loading });
 
 class App extends Component {
   render() {
