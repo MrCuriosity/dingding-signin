@@ -124,37 +124,32 @@ export default {
 						    	/** get userid && device_id */
 						    	const { code } = JSON.parse(JSON.stringify(result))
 						    	const userIdResult = await fn.DB.Signin.getUserId({ ':code': code }).catch(e => alert(`${JSON.stringify(e)}`))
-						    	alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
+						    	// alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
 						    	const { user_id, device_id } = userIdResult.data
 
 						    	/** getGroup */
 									const groupResult = await fn.DB.Signin.getGroup({ ':user_id': user_id })
-									alert(`groupResult => ${JSON.stringify(groupResult)}`)
+									// alert(`groupResult => ${JSON.stringify(groupResult)}`)
 
 						    	/** get todayLog */
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
-									alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
-                  alert(`user_id => ${user_id}`)
-                  alert(`device_id => ${device_id}`)
-                  alert(`usergroup => ${groupResult.data.name}`)
-                  alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
+									// alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
 									setState({
 										userid: user_id,
 										device_id: device_id,
 										usergroup: groupResult.data.name,
-										todayLog: todayLogResult.data,
+										todayLog: JSON.stringify(todayLogResult.data),
 									})
-                  alert(5)
 						    	resolve(5)
 						    },
 						    onFail(err) {
-						    	alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
+						    	// alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
                   console.error('runtime.permission.requestAuthCode failed -> ', e)
                   reject(5)
 						    }
 							})
   					}).catch(e => {
-              alert(`p5 error -> ${JSON.stringify(e)}`)
+              // alert(`p5 error -> ${JSON.stringify(e)}`)
               console.error(`p5 error -> ${JSON.stringify(e)}`)
             })
 
@@ -212,14 +207,14 @@ export default {
 
 				    Promise.all([p1, p3, p4, p5])
   					.then(data => {
-  						alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					}, reason => {
-  						alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
+  						// alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
   					})
   					.catch(e => {
-              alert(`init Promise.all error -> ${JSON.stringify(e)}`)
+              // alert(`init Promise.all error -> ${JSON.stringify(e)}`)
               console.error(`init Promise.all error -> ${JSON.stringify(e)}`)
             })
 
@@ -227,7 +222,7 @@ export default {
   			}
   		}
   	} catch(e) {
-      alert(`init logic error -> ${JSON.stringify(e)}`)
+      // alert(`init logic error -> ${JSON.stringify(e)}`)
   		console.error('init logic error -> ', e)
   	}
 	},
@@ -303,7 +298,7 @@ export default {
         })
   		}
   	} catch(e) {
-  		alert(`signin logic error -> ${JSON.stringify(e)}`)
+  		// alert(`signin logic error -> ${JSON.stringify(e)}`)
   		console.error('signin logic error -> ', e)
   	}
   }
