@@ -9,6 +9,14 @@ const jsApiList = [
   'device.geolocation.get'
 ]
 
+const shallowCopy = obj => {
+  let result = {}
+  for (k in obj) {
+    result[k] = obj[k]
+  }
+  return result
+}
+
 export default {
   defaults(props) {
     return {
@@ -46,7 +54,7 @@ export default {
       alert(`到这里就说明 const { a } = b 是可行的`)
   		if (data) {
 
-  			let ddconfig = {...data}
+  			let ddconfig = shallowCopy(data)
         try {
           alert(`ddconfig => ${JSON.stringify(ddconfig)}`)
         } catch(ddconfigerror) {
@@ -228,7 +236,7 @@ export default {
   		const result = await fn.DB.Signin.getConfig({ url })
   		const { data } = result
   		if (data) {
-  			let ddconfig = {...data}
+  			let ddconfig = shallowCopy(data)
   			ddconfig.agentId = parseInt(ddconfig.agentid)
   			delete ddconfig.agentid
   			ddconfig.corpId = ddconfig.corpid
