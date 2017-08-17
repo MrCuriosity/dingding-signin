@@ -11,7 +11,7 @@ const jsApiList = [
 
 const shallowCopy = obj => {
   let result = {}
-  for (k in obj) {
+  for (var k in obj) {
     result[k] = obj[k]
   }
   return result
@@ -51,7 +51,7 @@ export default {
   		const result = await fn.DB.Signin.getConfig({ url })
       alert(`ddconfig result => ${JSON.stringify(result)}`)
   		const { data } = result
-      alert(`到这里就说明 const { a } = b 是可行的`)
+      alert(`到这里就说明 const { a } = b 是可行的, data => ${JSON.stringify(data)}`)
   		if (data) {
 
   			let ddconfig = shallowCopy(data)
