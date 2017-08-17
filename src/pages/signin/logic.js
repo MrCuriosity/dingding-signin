@@ -79,18 +79,17 @@ export default {
 				          	username: info.nickName,
 				          	avatar: info.avatar
 				          })
-				          alert('p1 getUser success => ' + JSON.stringify(info))
-
+				          // alert('p1 getUser success => ' + JSON.stringify(info))
 	  							resolve(1)
 				        },
 				        onFail: function (err) {
-				          alert(`getUser error ${JSON.stringify(err)}`)
+				          // alert(`getUser error ${JSON.stringify(err)}`)
 				          console.error('getUser error -> ', err)
 				        	reject(1)
 				        }
 				      })
   					}).catch(e => {
-              alert(`p1 error -> ${JSON.stringify(e)}`)
+              // alert(`p1 error -> ${JSON.stringify(e)}`)
               console.error(`p1 error -> ${JSON.stringify(e)}`)
             })
 
@@ -120,7 +119,7 @@ export default {
   						dd.runtime.permission.requestAuthCode({
 						    corpId,
 						    onSuccess: async function(result) {
-						    	alert(`runtime.permission.requestAuthCode succeed = > ${JSON.stringify(result)}`)
+						    	// alert(`runtime.permission.requestAuthCode succeed = > ${JSON.stringify(result)}`)
 
 						    	/** get userid && device_id */
 						    	const { code } = JSON.parse(JSON.stringify(result))
@@ -135,14 +134,17 @@ export default {
 						    	/** get todayLog */
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
 									alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
-
+                  alert(`user_id => ${user_id}`)
+                  alert(`device_id => ${device_id}`)
+                  alert(`usergroup => ${groupResult.data.name}`)
+                  alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
 									setState({
 										userid: user_id,
 										device_id: device_id,
 										usergroup: groupResult.data.name,
 										todayLog: todayLogResult.data,
 									})
-
+                  alert(5)
 						    	resolve(5)
 						    },
 						    onFail(err) {
@@ -163,7 +165,7 @@ export default {
 						    coordinate : 1,// 1 => 高德 | 2 => 标准
 						    withReGeocode : true,
 						    onSuccess(result) {
-						    	alert(`getLocation success => ${JSON.stringify(result)}`)
+						    	// alert(`getLocation success => ${JSON.stringify(result)}`)
 						      result = JSON.parse(JSON.stringify(result))
 						    	const data = result.location ? result.location : result
 						    	const { longitude, latitude, address } = data
@@ -175,13 +177,13 @@ export default {
 						    	resolve(3)
 						    },
 						    onFail(err) {
-						    	alert(`getLocation error -> ${JSON.stringify(err)}`)
+						    	// alert(`getLocation error -> ${JSON.stringify(err)}`)
 						    	console.error('getLocation error -> ', err)
 						    	reject(3)
 						    }
 				      })
 				    }).catch(e => {
-              alert(`getLocation error -> ${JSON.stringify(e)}`)
+              // alert(`getLocation error -> ${JSON.stringify(e)}`)
               console.error(`getLocation error -> ${JSON.stringify(e)}`)
             })
 
@@ -190,7 +192,7 @@ export default {
 				      dd.device.base.getInterface({
 				      	onSuccess(info) {
 				      		info = JSON.parse(JSON.stringify(info))
-				      		alert('checkWIfi success ' + JSON.stringify(info))
+				      		// alert('checkWIfi success ' + JSON.stringify(info))
 				      		setState({
 				      			ssid: info.ssid,
 				      			mac_addr: info.macIp
@@ -198,19 +200,19 @@ export default {
 				      		resolve(4)
 				      	},
 				      	onFail(err) {
-				      		alert(`checkWifi error -> ${JSON.stringify(err)}`)
+				      		// alert(`checkWifi error -> ${JSON.stringify(err)}`)
 				          console.error('checkWifi error -> ', JSON.stringify(err))
 				          reject(4)
 				      	}
 				      })
 				    }).catch(e => {
-              alert(`checkWifi error -> ${JSON.stringify(e)}`)
+              // alert(`checkWifi error -> ${JSON.stringify(e)}`)
               console.error(`checkWifi error -> ${JSON.stringify(e)}`)
             })
 
 				    Promise.all([p1, p3, p4, p5])
   					.then(data => {
-  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					}, reason => {
