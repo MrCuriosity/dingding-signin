@@ -138,7 +138,7 @@ export default {
 										userid: user_id,
 										device_id: device_id,
 										usergroup: groupResult.data.name,
-										todayLog: JSON.parse(JSON.stringify(todayLogResult.data)),
+										todayLog: JSON.parse(JSON.stringify(todayLogResult.data))
 									})
 						    	resolve(5)
 						    },
