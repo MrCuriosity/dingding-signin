@@ -63,9 +63,9 @@ export default {
   			ddconfig.jsApiList = jsApiList
 
   			console.log('ddconfig', ddconfig)
-        alert(`ddconfig after => ${JSON.stringify(ddconfig)}`)
+        
   			const configResult = await dingdingConfig(ddconfig)
-        alert(`configResult => ${JSON.stringify(configResult)}`)
+
   			if (configResult === 1) {
 
   				dd.ready(() => {
@@ -79,7 +79,7 @@ export default {
 				          	username: info.nickName,
 				          	avatar: info.avatar
 				          })
-				          // alert('getUser success => ' + JSON.stringify(info))
+				          alert('p1 getUser success => ' + JSON.stringify(info))
 
 	  							resolve(1)
 				        },
@@ -120,21 +120,21 @@ export default {
   						dd.runtime.permission.requestAuthCode({
 						    corpId,
 						    onSuccess: async function(result) {
-						    	// alert(`runtime.permission.requestAuthCode succeed = > ${JSON.stringify(result)}`)
+						    	alert(`runtime.permission.requestAuthCode succeed = > ${JSON.stringify(result)}`)
 
 						    	/** get userid && device_id */
 						    	const { code } = JSON.parse(JSON.stringify(result))
 						    	const userIdResult = await fn.DB.Signin.getUserId({ ':code': code }).catch(e => alert(`${JSON.stringify(e)}`))
-						    	// alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
+						    	alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
 						    	const { user_id, device_id } = userIdResult.data
 
 						    	/** getGroup */
 									const groupResult = await fn.DB.Signin.getGroup({ ':user_id': user_id })
-									// alert(`groupResult => ${JSON.stringify(groupResult)}`)
+									alert(`groupResult => ${JSON.stringify(groupResult)}`)
 
 						    	/** get todayLog */
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
-									// alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
+									alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
 
 									setState({
 										userid: user_id,
@@ -163,11 +163,15 @@ export default {
 						    coordinate : 1,// 1 => 高德 | 2 => 标准
 						    withReGeocode : true,
 						    onSuccess(result) {
-						    	// alert(`getLocation success => ${JSON.stringify(result)}`)
+						    	alert(`getLocation success => ${JSON.stringify(result)}`)
 						      result = JSON.parse(JSON.stringify(result))
 						    	const data = result.location ? result.location : result
 						    	const { longitude, latitude, address } = data
-						    	setState({ longitude, latitude, address })
+						    	setState({
+                    longitude: longitude,
+                    latitude: latitude,
+                    address: address
+                  })
 						    	resolve(3)
 						    },
 						    onFail(err) {
@@ -186,7 +190,7 @@ export default {
 				      dd.device.base.getInterface({
 				      	onSuccess(info) {
 				      		info = JSON.parse(JSON.stringify(info))
-				      		// alert('checkWIfi success ' + JSON.stringify(info))
+				      		alert('checkWIfi success ' + JSON.stringify(info))
 				      		setState({
 				      			ssid: info.ssid,
 				      			mac_addr: info.macIp
