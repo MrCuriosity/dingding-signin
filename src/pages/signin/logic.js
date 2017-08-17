@@ -41,6 +41,7 @@ export default {
 			})
 
   		const result = await fn.DB.Signin.getConfig({ url })
+      alert(`ddconfig result => ${JSON.stringify(result)}`)
   		const { data } = result
   		if (data) {
 
@@ -210,6 +211,7 @@ export default {
   			}
   		}
   	} catch(e) {
+      alert(`init logic error -> ${JSON.stringify(e)}`)
   		console.error('init logic error -> ', e)
   	}
 	},
