@@ -49,17 +49,12 @@ export default {
 			})
 
   		const result = await fn.DB.Signin.getConfig({ url })
-      alert(`ddconfig result => ${JSON.stringify(result)}`)
   		const { data } = result
-      alert(`到这里就说明 const { a } = b 是可行的, data => ${JSON.stringify(data)}`)
+
   		if (data) {
 
   			let ddconfig = shallowCopy(data)
-        try {
-          alert(`ddconfig => ${JSON.stringify(ddconfig)}`)
-        } catch(ddconfigerror) {
-          alert(`ddconfig object spread error -> ${JSON.stringify(ddconfigerror)}`)
-        }
+        
   			ddconfig.agentId = parseInt(ddconfig.agentid)
   			delete ddconfig.agentid
   			ddconfig.corpId = ddconfig.corpid
@@ -68,7 +63,9 @@ export default {
   			ddconfig.jsApiList = jsApiList
 
   			console.log('ddconfig', ddconfig)
+        alert(`ddconfig after => ${JSON.stringify(ddconfig)}`)
   			const configResult = await dingdingConfig(ddconfig)
+        alert(`configResult => ${JSON.stringify(configResult)}`)
   			if (configResult === 1) {
 
   				dd.ready(() => {
@@ -130,7 +127,6 @@ export default {
 						    	const userIdResult = await fn.DB.Signin.getUserId({ ':code': code }).catch(e => alert(`${JSON.stringify(e)}`))
 						    	// alert(`getUserId result => ${JSON.stringify(userIdResult)}`)
 						    	const { user_id, device_id } = userIdResult.data
-						    	setState({ userid: user_id, device_id })
 
 						    	/** getGroup */
 									const groupResult = await fn.DB.Signin.getGroup({ ':user_id': user_id })
@@ -142,7 +138,7 @@ export default {
 
 									setState({
 										userid: user_id,
-										device_id,
+										device_id: device_id,
 										usergroup: groupResult.data.name,
 										todayLog: todayLogResult.data,
 									})
