@@ -36,14 +36,15 @@ export default {
 		try {
 			Toast.show({
 				type: 'loading',
-				content: '初始化中...'
+				content: '初始化中...',
+        autoHide: false
 			})
 
   		const result = await fn.DB.Signin.getConfig({ url })
   		const { data } = result
   		if (data) {
 
-  			let ddconfig = Object.assign(data, {})
+  			let ddconfig = {...data}
   			ddconfig.agentId = parseInt(ddconfig.agentid)
   			delete ddconfig.agentid
   			ddconfig.corpId = ddconfig.corpid
@@ -219,7 +220,7 @@ export default {
   		const result = await fn.DB.Signin.getConfig({ url })
   		const { data } = result
   		if (data) {
-  			let ddconfig = Object.assign(data, {})
+  			let ddconfig = {...data}
   			ddconfig.agentId = parseInt(ddconfig.agentid)
   			delete ddconfig.agentid
   			ddconfig.corpId = ddconfig.corpid
