@@ -73,34 +73,34 @@ export default {
 	  							resolve(1)
 				        },
 				        onFail: function (err) {
-				          // alert(`getUser error ${JSON.stringify(err)}`)
+				          alert(`getUser error ${JSON.stringify(err)}`)
 				          console.error('getUser error -> ', err)
 				        	reject(1)
 				        }
 				      })
   					}).catch(e => {
-              // alert(`p1 error -> ${JSON.stringify(e)}`)
+              alert(`p1 error -> ${JSON.stringify(e)}`)
               console.error(`p1 error -> ${JSON.stringify(e)}`)
             })
 
-  					const p2 = new Promise((resolve, reject) => {
-  						/** get device_id */
-				      dd.device.base.getUUID({
-						    onSuccess(data) {
-						    	// alert('getDeviceId success => ' + JSON.stringify(data))
-						    	setState({ device_id: data.uuid })
-						    	resolve(2)
-						    },
-						    onFail(err) {
-						    	// alert(`get device_id error -> ${JSON.stringify(err)}`)
-						    	console.error('get device_id error -> ', err)
-						    	reject(2)
-						    }
-							})
-  					}).catch(e => {
-              // alert(`p2 error -> ${JSON.stringify(e)}`)
-              console.error(`p2 error -> ${JSON.stringify(e)}`)
-            })
+  					// const p2 = new Promise((resolve, reject) => {
+  					// 	/** get device_id */
+				   //    dd.device.base.getUUID({
+						 //    onSuccess(data) {
+						 //    	// alert('getDeviceId success => ' + JSON.stringify(data))
+						 //    	setState({ device_id: data.uuid })
+						 //    	resolve(2)
+						 //    },
+						 //    onFail(err) {
+						 //    	// alert(`get device_id error -> ${JSON.stringify(err)}`)
+						 //    	console.error('get device_id error -> ', err)
+						 //    	reject(2)
+						 //    }
+							// })
+  					// }).catch(e => {
+       //        // alert(`p2 error -> ${JSON.stringify(e)}`)
+       //        console.error(`p2 error -> ${JSON.stringify(e)}`)
+       //      })
 
 						
   					const p5 = new Promise((resolve, reject) => {
@@ -136,13 +136,13 @@ export default {
 						    	resolve(5)
 						    },
 						    onFail(err) {
-						    	// alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
+						    	alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
                   console.error('runtime.permission.requestAuthCode failed -> ', e)
                   reject(5)
 						    }
 							})
   					}).catch(e => {
-              // alert(`p5 error -> ${JSON.stringify(e)}`)
+              alert(`p5 error -> ${JSON.stringify(e)}`)
               console.error(`p5 error -> ${JSON.stringify(e)}`)
             })
 
@@ -161,13 +161,13 @@ export default {
 						    	resolve(3)
 						    },
 						    onFail(err) {
-						    	// alert(`getLocation error -> ${JSON.stringify(err)}`)
+						    	alert(`getLocation error -> ${JSON.stringify(err)}`)
 						    	console.error('getLocation error -> ', err)
 						    	reject(3)
 						    }
 				      })
 				    }).catch(e => {
-              // alert(`getLocation error -> ${JSON.stringify(e)}`)
+              alert(`getLocation error -> ${JSON.stringify(e)}`)
               console.error(`getLocation error -> ${JSON.stringify(e)}`)
             })
 
@@ -184,26 +184,26 @@ export default {
 				      		resolve(4)
 				      	},
 				      	onFail(err) {
-				      		// alert(`checkWifi error -> ${JSON.stringify(err)}`)
+				      		alert(`checkWifi error -> ${JSON.stringify(err)}`)
 				          console.error('checkWifi error -> ', JSON.stringify(err))
 				          reject(4)
 				      	}
 				      })
 				    }).catch(e => {
-              // alert(`checkWifi error -> ${JSON.stringify(e)}`)
+              alert(`checkWifi error -> ${JSON.stringify(e)}`)
               console.error(`checkWifi error -> ${JSON.stringify(e)}`)
             })
 
-				    Promise.all([p1, p2, p3, p4, p5])
+				    Promise.all([p1, p3, p4, p5])
   					.then(data => {
   						// alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					}, reason => {
-  						// alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
+  						alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
   					})
   					.catch(e => {
-              // alert(`init Promise.all error -> ${JSON.stringify(e)}`)
+              alert(`init Promise.all error -> ${JSON.stringify(e)}`)
               console.error(`init Promise.all error -> ${JSON.stringify(e)}`)
             })
 
@@ -287,7 +287,7 @@ export default {
         })
   		}
   	} catch(e) {
-  		// alert(`signin logic error -> ${JSON.stringify(e)}`)
+  		alert(`signin logic error -> ${JSON.stringify(e)}`)
   		console.error('signin logic error -> ', e)
   	}
   }
