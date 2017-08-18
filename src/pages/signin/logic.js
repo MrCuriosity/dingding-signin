@@ -136,18 +136,18 @@ export default {
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
                   // alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
                   
-                  alert(`user_id => ${user_id}`)
+                  // alert(`user_id => ${user_id}`)
                   setState({ userid: user_id })
 
-                  alert(`device_id => ${device_id}`)
+                  // alert(`device_id => ${device_id}`)
                   setState({ device_id })
 
-                  alert(`usergroup => ${groupResult.data.name}`)
+                  // alert(`usergroup => ${groupResult.data.name}`)
                   setState({ usergroup: groupResult.data.name })
 
-                  const todayLog = todayLogResult.data
-                  alert(`todayLog => ${JSON.stringify(todayLog)}`)
-                  setState({ todayLog: JSON.stringify(todayLog) })
+                  const todayLog = JSON.stringify(todayLogResult.data)
+                  alert(`todayLog => ${todayLog}`)
+                  setState({ todayLog: todayLog })
 
                   alert('p5 ok')
 						    	resolve(5)
