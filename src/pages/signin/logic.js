@@ -145,15 +145,10 @@ export default {
                   alert(`usergroup => ${groupResult.data.name}`)
                   setState({ usergroup: groupResult.data.name })
 
-                  alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
-                  // setState({ todayLog: todayLogResult.data })
+                  const todayLog = todayLogResult.data
+                  alert(`todayLog => ${JSON.stringify(todayLog)}`)
+                  setState({ todayLog: todayLog })
 
-									// setState({
-									// 	userid: user_id,
-									// 	device_id: device_id,
-									// 	usergroup: groupResult.data.name,
-									// 	todayLog: todayLogResult.data
-									// })
                   alert('p5 ok')
 						    	resolve(5)
 						    },
