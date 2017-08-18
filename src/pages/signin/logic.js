@@ -33,7 +33,7 @@ export default {
       address: '',
       longitude: undefined,
       latitude: undefined,
-      todayLog: [],
+      todayLog: undefined,
       nearLog: undefined,
       dialogShow: false,
       loading: false
@@ -135,16 +135,26 @@ export default {
 						    	/** get todayLog */
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
                   // alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
+                  // 
+                  alert(`setState => ${setState}`)
                   alert(`user_id => ${user_id}`)
+                  setState({ userid: user_id })
+
                   alert(`device_id => ${device_id}`)
+                  setState({ device_id })
+
                   alert(`usergroup => ${groupResult.data.name}`)
+                  setState({ usergroup: groupResult.data.name })
+
                   alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
-									setState({
-										userid: user_id,
-										device_id: device_id,
-										usergroup: groupResult.data.name,
-										todayLog: todayLogResult.data
-									})
+                  setState({ todayLog: todayLogResult.data })
+
+									// setState({
+									// 	userid: user_id,
+									// 	device_id: device_id,
+									// 	usergroup: groupResult.data.name,
+									// 	todayLog: todayLogResult.data
+									// })
                   alert('p5 ok')
 						    	resolve(5)
 						    },
