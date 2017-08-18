@@ -80,8 +80,8 @@ export default class PageSignin extends Component {
       }
       return undefined
     }
-    const onWorkLog = getWorkLog({ todayLog: this.state.todayLog, type: 1 })
-    const outWorkLog = getWorkLog({ todayLog: this.state.todayLog, type: 2 })
+    const onWorkLog = getWorkLog({ todayLog: JSON.parse(this.state.todayLog), type: 1 })
+    const outWorkLog = getWorkLog({ todayLog: JSON.parse(this.state.todayLog), type: 2 })
 
     const { nearLog } = this.state
     const nearTitle = nearLog && nearLog.title ? nearLog.title : undefined

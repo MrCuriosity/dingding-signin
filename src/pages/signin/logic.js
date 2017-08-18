@@ -147,7 +147,7 @@ export default {
 
                   const todayLog = todayLogResult.data
                   alert(`todayLog => ${JSON.stringify(todayLog)}`)
-                  setState({ todayLog: todayLog })
+                  setState({ todayLog: JSON.stringify(todayLog) })
 
                   alert('p5 ok')
 						    	resolve(5)
