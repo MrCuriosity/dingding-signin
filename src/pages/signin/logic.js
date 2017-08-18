@@ -140,7 +140,7 @@ export default {
                   setState({ userid: user_id })
 
                   // alert(`device_id => ${device_id}`)
-                  setState({ device_id })
+                  setState({ device_id: device_id })
 
                   // alert(`usergroup => ${groupResult.data.name}`)
                   setState({ usergroup: groupResult.data.name })
