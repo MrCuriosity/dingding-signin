@@ -135,8 +135,7 @@ export default {
 						    	/** get todayLog */
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
                   // alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
-                  // 
-                  alert(`setState => ${setState}`)
+                  
                   alert(`user_id => ${user_id}`)
                   setState({ userid: user_id })
 
@@ -147,7 +146,7 @@ export default {
                   setState({ usergroup: groupResult.data.name })
 
                   alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
-                  setState({ todayLog: todayLogResult.data })
+                  // setState({ todayLog: todayLogResult.data })
 
 									// setState({
 									// 	userid: user_id,
