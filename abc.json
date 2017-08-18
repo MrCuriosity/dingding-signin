@@ -1,6 +1,8 @@
 {
   "name": "h5",
   "options": {
+    "lazyload": true,
+    "loose": true,
     "type": "salt",
     "template": "https://github.com/nowa-webpack/template-salt/archive/v2.zip",
     "npm": "https://registry.npm.taobao.org",

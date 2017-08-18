@@ -145,7 +145,7 @@ export default {
                   // alert(`usergroup => ${groupResult.data.name}`)
                   setState({ usergroup: groupResult.data.name })
 
-                  const todayLog = JSON.stringify(todayLogResult.data)
+                  const todayLog = todayLogResult.data
                   alert(`todayLog => ${todayLog}`)
                   setState({ todayLog: todayLog })
 
