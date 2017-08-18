@@ -80,6 +80,7 @@ export default {
 				          	avatar: info.avatar
 				          })
 				          // alert('p1 getUser success => ' + JSON.stringify(info))
+                  alert('p1 ok')
 	  							resolve(1)
 				        },
 				        onFail: function (err) {
@@ -133,23 +134,28 @@ export default {
 
 						    	/** get todayLog */
 									const todayLogResult = await fn.DB.Signin.todayLog({ ':user_id': user_id })
-									// alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
+                  // alert(`init todayLog result => ${JSON.stringify(todayLogResult)}`)
+                  alert(`user_id => ${user_id}`)
+                  alert(`device_id => ${device_id}`)
+                  alert(`usergroup => ${groupResult.data.name}`)
+                  alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
 									setState({
 										userid: user_id,
 										device_id: device_id,
 										usergroup: groupResult.data.name,
-										todayLog: JSON.parse(JSON.stringify(todayLogResult.data))
+										todayLog: todayLogResult.data
 									})
+                  alert('p5 ok')
 						    	resolve(5)
 						    },
 						    onFail(err) {
-						    	// alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
+						    	alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
                   console.error('runtime.permission.requestAuthCode failed -> ', e)
                   reject(5)
 						    }
 							})
   					}).catch(e => {
-              // alert(`p5 error -> ${JSON.stringify(e)}`)
+              alert(`p5 error -> ${JSON.stringify(e)}`)
               console.error(`p5 error -> ${JSON.stringify(e)}`)
             })
 
@@ -169,6 +175,7 @@ export default {
                     latitude: latitude,
                     address: address
                   })
+                  alert('p3 ok')
 						    	resolve(3)
 						    },
 						    onFail(err) {
@@ -192,6 +199,7 @@ export default {
 				      			ssid: info.ssid,
 				      			mac_addr: info.macIp
 				      		})
+                  alert('p4 ok')
 				      		resolve(4)
 				      	},
 				      	onFail(err) {
@@ -207,14 +215,14 @@ export default {
 
 				    Promise.all([p1, p3, p4, p5])
   					.then(data => {
-  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					}, reason => {
-  						// alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
+  						alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
   					})
   					.catch(e => {
-              // alert(`init Promise.all error -> ${JSON.stringify(e)}`)
+              alert(`init Promise.all error -> ${JSON.stringify(e)}`)
               console.error(`init Promise.all error -> ${JSON.stringify(e)}`)
             })
 
