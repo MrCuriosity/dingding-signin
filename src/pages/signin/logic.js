@@ -80,7 +80,7 @@ export default {
 				          	avatar: info.avatar
 				          })
 				          // alert('p1 getUser success => ' + JSON.stringify(info))
-                  alert('p1 ok')
+                  // alert('p1 ok')
 	  							resolve(1)
 				        },
 				        onFail: function (err) {
@@ -145,20 +145,20 @@ export default {
                   // alert(`usergroup => ${groupResult.data.name}`)
                   setState({ usergroup: groupResult.data.name })
 
-                  alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
+                  // alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
                   setState({ todayLog: todayLogResult.data })
 
-                  alert('p5 ok')
+                  // alert('p5 ok')
 						    	resolve(5)
 						    },
 						    onFail(err) {
-						    	alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
+						    	// alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
                   console.error('runtime.permission.requestAuthCode failed -> ', e)
                   reject(5)
 						    }
 							})
   					}).catch(e => {
-              alert(`p5 error -> ${JSON.stringify(e)}`)
+              // alert(`p5 error -> ${JSON.stringify(e)}`)
               console.error(`p5 error -> ${JSON.stringify(e)}`)
             })
 
@@ -178,7 +178,7 @@ export default {
                     latitude: latitude,
                     address: address
                   })
-                  alert('p3 ok')
+                  // alert('p3 ok')
 						    	resolve(3)
 						    },
 						    onFail(err) {
@@ -202,7 +202,7 @@ export default {
 				      			ssid: info.ssid,
 				      			mac_addr: info.macIp
 				      		})
-                  alert('p4 ok')
+                  // alert('p4 ok')
 				      		resolve(4)
 				      	},
 				      	onFail(err) {
@@ -218,14 +218,14 @@ export default {
 
 				    Promise.all([p1, p3, p4, p5])
   					.then(data => {
-  						alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					}, reason => {
-  						alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
+  						// alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
   					})
   					.catch(e => {
-              alert(`init Promise.all error -> ${JSON.stringify(e)}`)
+              // alert(`init Promise.all error -> ${JSON.stringify(e)}`)
               console.error(`init Promise.all error -> ${JSON.stringify(e)}`)
             })
 
@@ -233,7 +233,7 @@ export default {
   			}
   		}
   	} catch(e) {
-      alert(`init logic error -> ${JSON.stringify(e)}`)
+      // alert(`init logic error -> ${JSON.stringify(e)}`)
   		console.error('init logic error -> ', e)
   	}
 	},
@@ -293,7 +293,7 @@ export default {
 
   		const result = await fn.DB.Signin.signin(postJSON)
   		console.log('signin result => ', result)
-  		alert(`signin result => ${JSON.stringify(result)}`)
+  		// alert(`signin result => ${JSON.stringify(result)}`)
   		const { code } = result
   		if (code && code === 200) {
   			console.log('signin ok')
@@ -302,14 +302,14 @@ export default {
           content: '打卡成功！'
         });
   			const refresh = await fn.DB.Signin.todayLog({ ':user_id': userId })
-				alert(`refresh todayLog result => ${JSON.stringify(refresh)}`)
+				// alert(`refresh todayLog result => ${JSON.stringify(refresh)}`)
 				setState({
           todayLog: refresh.data,
           dialogShow: false
         })
   		}
   	} catch(e) {
-  		alert(`signin logic error -> ${JSON.stringify(e)}`)
+  		// alert(`signin logic error -> ${JSON.stringify(e)}`)
   		console.error('signin logic error -> ', e)
   	}
   }
