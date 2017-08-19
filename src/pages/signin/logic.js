@@ -158,7 +158,7 @@ export default {
 						    }
 							})
   					}).catch(e => {
-              // alert(`p5 error -> ${JSON.stringify(e)}`)
+              alert(`p5 error -> ${JSON.stringify(e)}`)
               console.error(`p5 error -> ${JSON.stringify(e)}`)
             })
 
@@ -218,14 +218,14 @@ export default {
 
 				    Promise.all([p1, p3, p4, p5])
   					.then(data => {
-  						// alert(`init Promise.all => ${JSON.stringify(data)}`)
+  						alert(`init Promise.all => ${JSON.stringify(data)}`)
   						setState({ initialized: true })
   						Toast.hide()
   					}, reason => {
-  						// alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
+  						alert(`init Promise.all rejected => ${JSON.stringify(reason)}`)
   					})
   					.catch(e => {
-              // alert(`init Promise.all error -> ${JSON.stringify(e)}`)
+              alert(`init Promise.all error -> ${JSON.stringify(e)}`)
               console.error(`init Promise.all error -> ${JSON.stringify(e)}`)
             })
 
@@ -233,7 +233,7 @@ export default {
   			}
   		}
   	} catch(e) {
-      // alert(`init logic error -> ${JSON.stringify(e)}`)
+      alert(`init logic error -> ${JSON.stringify(e)}`)
   		console.error('init logic error -> ', e)
   	}
 	},
