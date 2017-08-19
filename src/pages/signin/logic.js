@@ -293,7 +293,7 @@ export default {
 
   		const result = await fn.DB.Signin.signin(postJSON)
   		console.log('signin result => ', result)
-  		// alert(`signin result => ${JSON.stringify(result)}`)
+  		alert(`signin result => ${JSON.stringify(result)}`)
   		const { code } = result
   		if (code && code === 200) {
   			console.log('signin ok')
@@ -302,14 +302,14 @@ export default {
           content: '打卡成功！'
         });
   			const refresh = await fn.DB.Signin.todayLog({ ':user_id': userId })
-				// alert(`refresh todayLog result => ${JSON.stringify(refresh)}`)
+				alert(`refresh todayLog result => ${JSON.stringify(refresh)}`)
 				setState({
           todayLog: refresh.data,
           dialogShow: false
         })
   		}
   	} catch(e) {
-  		// alert(`signin logic error -> ${JSON.stringify(e)}`)
+  		alert(`signin logic error -> ${JSON.stringify(e)}`)
   		console.error('signin logic error -> ', e)
   	}
   }
