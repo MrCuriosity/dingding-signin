@@ -80,7 +80,7 @@ export default {
 				          	avatar: info.avatar
 				          })
 				          // alert('p1 getUser success => ' + JSON.stringify(info))
-                  // alert('p1 ok')
+                  alert('p1 ok')
 	  							resolve(1)
 				        },
 				        onFail: function (err) {
@@ -178,7 +178,7 @@ export default {
                     latitude: latitude,
                     address: address
                   })
-                  // alert('p3 ok')
+                  alert('p3 ok')
 						    	resolve(3)
 						    },
 						    onFail(err) {
@@ -202,7 +202,7 @@ export default {
 				      			ssid: info.ssid,
 				      			mac_addr: info.macIp
 				      		})
-                  // alert('p4 ok')
+                  alert('p4 ok')
 				      		resolve(4)
 				      	},
 				      	onFail(err) {
