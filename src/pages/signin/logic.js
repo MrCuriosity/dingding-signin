@@ -145,14 +145,14 @@ export default {
                   // alert(`usergroup => ${groupResult.data.name}`)
                   setState({ usergroup: groupResult.data.name })
 
-                  // alert(`todayLog => ${todayLogResult.data}`)
+                  alert(`todayLog => ${JSON.stringify(todayLogResult.data)}`)
                   setState({ todayLog: todayLogResult.data })
 
-                  // alert('p5 ok')
+                  alert('p5 ok')
 						    	resolve(5)
 						    },
 						    onFail(err) {
-						    	// alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
+						    	alert(`runtime.permission.requestAuthCode failed -> ${JSON.stringify(err)}`)
                   console.error('runtime.permission.requestAuthCode failed -> ', e)
                   reject(5)
 						    }
