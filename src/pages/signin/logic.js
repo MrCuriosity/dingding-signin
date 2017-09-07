@@ -293,7 +293,7 @@ export default {
 
   		const result = await fn.DB.Signin.signin(postJSON)
   		console.log('signin result => ', result)
-  		// alert(`signin result => ${JSON.stringify(result)}`)
+  		alert(`signin result => ${JSON.stringify(result)}`)
   		const { code, data } = result
   		if (code && code === 200) {
   			console.log('signin ok')
