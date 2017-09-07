@@ -294,17 +294,20 @@ export default {
   		const result = await fn.DB.Signin.signin(postJSON)
   		console.log('signin result => ', result)
   		// alert(`signin result => ${JSON.stringify(result)}`)
-  		const { code } = result
+  		const { code, data } = result
   		if (code && code === 200) {
   			console.log('signin ok')
         Toast.show({
           type: 'success',
           content: '打卡成功！'
         });
-  			const refresh = await fn.DB.Signin.todayLog({ ':user_id': userId })
+        const appoint_day = data
+  			// const refresh = await fn.DB.Signin.todayLog({ ':user_id': userId })
 				// alert(`refresh todayLog result => ${JSON.stringify(refresh)}`)
+        const success_log = await fn.DB.Signin.successLog({ user_id: userId, appoint_day })
+        alert(`success_log result => ${JSON.stringify(success_log)}`)
 				setState({
-          todayLog: refresh.data,
+          todayLog: success_log.data,
           dialogShow: false
         })
   		}
